@@ -35,7 +35,14 @@ export function b2bOrder () {
         }
       }
     } else {
-      res.json({ cid: body.cid, orderNo: uniqueOrderNumber(), paymentDue: dateTwoWeeksFromNow() })
+      try {
+        // Parse orderLinesData safely
+        const parsedOrderLinesData = JSON.parse(body.orderLinesData || '')
+        // Process the parsed data as needed
+        res.json({ cid: body.cid, orderNo: uniqueOrderNumber(), paymentDue: dateTwoWeeksFromNow() })
+      } catch (err) {
+        next(err)
+      }
     }
   }
 
